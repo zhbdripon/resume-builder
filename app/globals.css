@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --background: #edf2f0;
+  --foreground: #172f38;
 }
 
 @theme inline {
@@ -12,15 +13,266 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+.resume-stage {
+  background-image: linear-gradient(135deg, rgba(49, 139, 127, 0.045), transparent 42%),
+    repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(19, 44, 53, 0.018) 32px);
+}
+
+.resume-paper {
+  width: min(100%, 210mm);
+  min-height: 297mm;
+  overflow: visible !important;
+  font-size: 8pt;
+  line-height: 1.24;
+}
+
+.resume-header {
+  padding: 6mm 7.5mm 5mm !important;
+}
+
+.resume-header > div:nth-child(2) {
+  gap: 5mm !important;
+}
+
+.resume-header h1 {
+  font-size: 25pt !important;
+  line-height: 1.04 !important;
+}
+
+.resume-header h1 + p {
+  margin-top: 1mm !important;
+  font-size: 10pt !important;
+}
+
+.resume-header > div:nth-child(2) > div > p:first-child {
+  margin-bottom: 1mm !important;
+  font-size: 7pt;
+}
+
+.resume-avatar {
+  width: 25mm;
+  height: 25mm;
+  flex: none;
+  border: 1px solid #ffffff33;
+  border-radius: 50%;
+  background-position: center;
+  background-size: cover;
+}
+
+.resume-header .mt-6 {
+  margin-top: 3mm !important;
+}
+
+.resume-header a,
+.resume-header span {
+  font-size: 7pt;
+}
+
+.resume-contact a {
+  overflow-wrap: anywhere;
+}
+
+.skill-badge {
+  display: inline-flex;
+  min-height: 5mm;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.6mm;
+  line-height: 1 !important;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.resume-paper > div {
+  padding: 5mm 7.5mm 7mm !important;
+}
+
+.resume-paper p,
+.resume-paper li {
+  font-size: 7.3pt !important;
+  line-height: 1.24 !important;
+}
+
+.resume-paper h2 {
+  margin-bottom: 2mm !important;
+  font-size: 8pt !important;
+  line-height: 1.2 !important;
+}
+
+.resume-paper h3 {
+  font-size: 8pt !important;
+  line-height: 1.2 !important;
+}
+
+.resume-paper .resume-section.mb-9,
+.resume-paper .resume-section.mb-10 {
+  margin-bottom: 3.5mm !important;
+}
+
+.resume-paper .resume-columns {
+  gap: 5mm;
+}
+
+.resume-paper .resume-sidebar {
+  padding-left: 4mm;
+}
+
+.resume-paper .resume-sidebar > :not(:first-child) {
+  margin-block-start: 3.5mm !important;
+}
+
+.resume-paper .experience-item {
+  padding-left: 3mm;
+}
+
+.resume-paper .experience-item:not(:last-child) {
+  margin-block-end: 1.2mm !important;
+}
+
+.resume-paper .experience-item ul {
+  margin-top: 1mm !important;
+}
+
+.resume-paper .experience-item ul > :not(:first-child) {
+  margin-block-start: 0.5mm !important;
+}
+
+.resume-paper .resume-bullet {
+  padding-left: 3mm;
+}
+
+.resume-paper .resume-bullet::before {
+  top: 0.55em;
+  width: 1mm;
+  height: 1mm;
+}
+
+.resume-paper .project-item p {
+  margin-top: 0.6mm !important;
+}
+
+.resume-paper .resume-section .grid {
+  row-gap: 2mm !important;
+  column-gap: 2.5mm !important;
+}
+
+.resume-paper aside li:not(.resume-bullet) {
+  padding: 0.35mm 1mm;
+  font-size: 6.7pt !important;
+}
+
+@media (max-width: 767px) {
+  .resume-paper {
+    min-height: 0;
+  }
+
+  .resume-paper .resume-sidebar {
+    margin-top: 5mm;
+    border-left: 0;
+    border-top: 1px solid #dbe5e2;
+    padding: 5mm 0 0;
+  }
+}
+
+.resume-link {
+  text-decoration-color: rgba(213, 229, 228, 0.55);
+  text-underline-offset: 3px;
+}
+
+.resume-link:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.resume-bullet {
+  position: relative;
+  padding-left: 14px;
+}
+
+.resume-bullet::before {
+  position: absolute;
+  top: 0.7em;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #58a69a;
+  content: "";
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html,
+  body {
+    background: white !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .resume-stage {
+    min-height: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+  }
+
+  .resume-toolbar,
+  .screen-only {
+    display: none !important;
+  }
+
+  .resume-paper {
+    max-width: none !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    overflow: hidden !important;
+    box-shadow: none !important;
+  }
+
+  .resume-paper > div {
+    padding-bottom: 2mm !important;
+  }
+
+  .resume-columns {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 0.9fr) !important;
+    gap: 5mm !important;
+  }
+
+  .resume-sidebar {
+    margin-top: 0 !important;
+    border-left: 1px solid #dbe5e2 !important;
+    border-top: 0 !important;
+    padding: 0 0 0 4mm !important;
+  }
+
+  .resume-paper .experience-item:not(:last-child) {
+    margin-bottom: 0 !important;
+  }
+
+  .resume-section[aria-labelledby="projects-heading"] > .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .resume-header {
+    break-inside: avoid;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }

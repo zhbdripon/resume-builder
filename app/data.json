@@ -12,92 +12,110 @@
   "summary": "Seasoned Software Engineer based in Dhaka, passionate about building software that solves problems. Experienced in developing full-stack web applications with a focus on delivering high-quality results. Active in programming communities since academic years, leadership roles in computer clubs and participation in national coding competitions. Fast learner with a strong work ethic, driven by the motto: “Own the responsibility and see it through.”",
   "experience": [
     {
-      "job_title": "Software Engineer",
       "company": "Pen Global",
-      "start_date": "07/2026",
-      "end_date": "Present",
-      "duration": null,
-      "work_type": "Onsite",
-      "employment_type": "Full-time",
       "location": "Chattogram",
-      "responsibilities": [
-        "Building a multi-tenant, multi-domain admission web portal using Next.js, improving accessibility and streamlining application processing.",
-        "Overseeing the team of developers, providing guidance and support to ensure project success.",
-        "Conducting research and development to enhance the performance and scalability of the application."
+      "positions": [
+        {
+          "job_title": "Software Engineer",
+          "start_date": "07/2026",
+          "end_date": "Present",
+          "duration": null,
+          "work_type": "Onsite",
+          "employment_type": "Full-time",
+          "responsibilities": [
+            "Building a multi-tenant, multi-domain admission web portal using Next.js, improving accessibility and streamlining application processing.",
+            "Overseeing the team of developers, providing guidance and support to ensure project success.",
+            "Conducting research and development to enhance the performance and scalability of the application."
+          ]
+        }
       ]
     },
     {
-      "job_title": "Full-stack Developer",
       "company": "Octeters",
-      "start_date": "11/2025",
-      "end_date": "02/2026",
-      "duration": "3 months",
-      "work_type": "Remote",
-      "employment_type": "Contract, Full-time",
-      "location": null,
-      "responsibilities": [
-        "Developed a multi-tenant SaaS CRM platform for accounting firms, enhancing user accessibility",
-        "Conducted R&D on authentication, RBAC, and data modeling to improve system security and architecture"
-      ]
-    },
-    {
-      "job_title": "Senior Software Engineer",
-      "company": "Enosis Solutions",
-      "start_date": "08/2023",
-      "end_date": "06/2024",
-      "duration": "10 months",
-      "work_type": "Hybrid",
-      "employment_type": "Full-time",
       "location": "Dhaka",
-      "responsibilities": [
-        "Took ownership of assigned tasks and supported teammates in delivering project objectives.",
-        "Tracked and coordinated tasks delivered within each software release.",
-        "Conducted research and development to improve application performance.",
-        "Mentored team members and provided technical guidance during development."
+      "positions": [
+        {
+          "job_title": "Full-stack Developer",
+          "start_date": "11/2025",
+          "end_date": "02/2026",
+          "duration": "3 months",
+          "work_type": "Remote",
+          "employment_type": "Contract, Full-time",
+          "responsibilities": [
+            "Developed a multi-tenant SaaS CRM platform for accounting firms, enhancing user accessibility",
+            "Conducted R&D on authentication, RBAC, and data modeling to improve system security and architecture"
+          ]
+        }
       ]
     },
     {
-      "job_title": "Software Engineer",
       "company": "Enosis Solutions",
-      "start_date": "08/2021",
-      "end_date": "07/2023",
-      "duration": "2 years",
-      "work_type": "Hybrid",
-      "employment_type": "Full-time",
       "location": "Dhaka",
-      "responsibilities": [
-        "Analyzed requirements, broke down features into tasks, and coordinated implementation.",
-        "Deployed application releases to designated environments.",
-        "Implemented new features and resolved bugs in production applications.",
-        "Wrote unit tests to ensure code quality and reliability."
+      "positions": [
+        {
+          "job_title": "Senior Software Engineer",
+          "start_date": "08/2023",
+          "end_date": "06/2024",
+          "duration": "10 months",
+          "work_type": "Hybrid",
+          "employment_type": "Full-time",
+          "responsibilities": [
+            "Took ownership of assigned tasks and supported teammates in delivering project objectives.",
+            "Tracked and coordinated tasks delivered within each software release.",
+            "Conducted research and development to improve application performance.",
+            "Mentored team members and provided technical guidance during development."
+          ]
+        },
+        {
+          "job_title": "Software Engineer",
+          "start_date": "08/2021",
+          "end_date": "07/2023",
+          "duration": "2 years",
+          "work_type": "Hybrid",
+          "employment_type": "Full-time",
+          "responsibilities": [
+            "Analyzed requirements, broke down features into tasks, and coordinated implementation.",
+            "Deployed application releases to designated environments.",
+            "Implemented new features and resolved bugs in production applications.",
+            "Wrote unit tests to ensure code quality and reliability."
+          ]
+        }
       ]
     },
     {
-      "job_title": "Automation QA Engineer",
       "company": "Software People Bangladesh Ltd (Rebranded to WPP Production Bangladesh)",
-      "start_date": "03/2021",
-      "end_date": "07/2021",
-      "duration": "5 months",
-      "work_type": "Onsite",
-      "employment_type": "Full-time",
       "location": "Dhaka",
-      "responsibilities": [
-        "Designed and developed automation tests to ensure software quality and reliability",
-        "Created and managed automation pipelines to streamline testing processes"
+      "positions": [
+        {
+          "job_title": "Automation QA Engineer",
+          "start_date": "03/2021",
+          "end_date": "07/2021",
+          "duration": "5 months",
+          "work_type": "Onsite",
+          "employment_type": "Full-time",
+          "responsibilities": [
+            "Designed and developed automation tests to ensure software quality and reliability",
+            "Created and managed automation pipelines to streamline testing processes"
+          ]
+        }
       ]
     },
     {
-      "job_title": "Software QA Engineer",
       "company": "CodeMarshal IT Systems Ltd",
-      "start_date": "06/2019",
-      "end_date": "10/2020",
-      "duration": "1 year 2 months",
-      "work_type": "Onsite",
-      "employment_type": "Full-time",
       "location": "Dhaka",
-      "responsibilities": [
-        "Implemented automated testing pipelines using GitLab CI.",
-        "Conducted testing of machine learning applications using Python scripting to ensure functionality and performance."
+      "positions": [
+        {
+          "job_title": "Software QA Engineer",
+          "start_date": "06/2019",
+          "end_date": "10/2020",
+          "duration": "1 year 2 months",
+          "work_type": "Onsite",
+          "employment_type": "Full-time",
+          "responsibilities": [
+            "Implemented automated testing pipelines using GitLab CI.",
+            "Conducted testing of machine learning applications using Python scripting to ensure functionality and performance."
+          ]
+        }
       ]
     }
   ],

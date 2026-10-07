@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { Button } from "@/components/ui/button";
 import { ClassicResumeTemplate } from "./classic-resume";
 import type { ExperienceView, ResumeData } from "./resume-document";
 import { ModernResumeTemplate } from "./modern-resume";
-import { ResumeForm } from "./resume-form";
+import { isResumeData, ResumeForm } from "./resume-form";
 
 type TemplateName = "modern" | "classic";
+const RESUME_STORAGE_KEY = "resume-builder:resume:v1";
 
 const emptyResume: ResumeData = {
   personal: {
@@ -29,10 +30,72 @@ const emptyResume: ResumeData = {
   projects: [],
 };
 
+let memoryResumeSnapshot: string | undefined;
+const resumeStoreListeners = new Set<() => void>();
+
+function getResumeSnapshot() {
+  if (memoryResumeSnapshot !== undefined) return memoryResumeSnapshot;
+
+  try {
+    return window.localStorage.getItem(RESUME_STORAGE_KEY) ?? "";
+  } catch {
+    return "";
+  }
+}
+
+function subscribeToResumeStore(listener: () => void) {
+  resumeStoreListeners.add(listener);
+  window.addEventListener("storage", handleResumeStorage);
+
+  return () => {
+    resumeStoreListeners.delete(listener);
+    window.removeEventListener("storage", handleResumeStorage);
+  };
+}
+
+function handleResumeStorage(event: StorageEvent) {
+  if (event.key !== null && event.key !== RESUME_STORAGE_KEY) return;
+
+  memoryResumeSnapshot = undefined;
+  resumeStoreListeners.forEach((listener) => listener());
+}
+
+function saveResumeSnapshot(data: ResumeData) {
+  const snapshot = JSON.stringify(data);
+  memoryResumeSnapshot = snapshot;
+
+  try {
+    window.localStorage.setItem(RESUME_STORAGE_KEY, snapshot);
+  } catch {}
+
+  resumeStoreListeners.forEach((listener) => listener());
+}
+
+function parseResumeSnapshot(snapshot: string): ResumeData {
+  if (!snapshot) return emptyResume;
+
+  try {
+    const parsed: unknown = JSON.parse(snapshot);
+    return isResumeData(parsed) ? parsed : emptyResume;
+  } catch {
+    return emptyResume;
+  }
+}
+
 export function TemplatePicker() {
-  const [data, setData] = useState<ResumeData>(emptyResume);
+  const resumeSnapshot = useSyncExternalStore(
+    subscribeToResumeStore,
+    getResumeSnapshot,
+    () => "",
+  );
+  const data = parseResumeSnapshot(resumeSnapshot);
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateName>("modern");
   const [experienceView, setExperienceView] = useState<ExperienceView>("company");
+
+  function updateResume(nextData: ResumeData) {
+    saveResumeSnapshot(nextData);
+  }
+
   const ResumeTemplate =
     selectedTemplate === "modern" ? ModernResumeTemplate : ClassicResumeTemplate;
 
@@ -91,7 +154,7 @@ export function TemplatePicker() {
           <ResumeTemplate data={data} experienceView={experienceView} />
         </section>
         <aside className="resume-editor screen-only" aria-label="Resume editor">
-          <ResumeForm data={data} onChange={setData} />
+          <ResumeForm data={data} onChange={updateResume} />
         </aside>
       </div>
     </main>

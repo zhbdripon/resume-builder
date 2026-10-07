@@ -37,7 +37,7 @@ function isStringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((item) => typeof item === "string");
 }
 
-function isResumeData(value: unknown): value is ResumeData {
+export function isResumeData(value: unknown): value is ResumeData {
   if (
     !isRecord(value) ||
     !hasStringFields(value.personal, [

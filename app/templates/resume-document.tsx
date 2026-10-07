@@ -1,7 +1,40 @@
-import type resumeData from "../data.json";
 import { PrintButton } from "../print-button";
 
-export type ResumeData = typeof resumeData;
+export type ResumePosition = {
+  job_title: string;
+  start_date: string;
+  end_date: string;
+  duration: string | null;
+  work_type: string;
+  employment_type: string;
+  responsibilities: string[];
+};
+
+export type ResumeData = {
+  personal: {
+    name: string;
+    title: string;
+    location: string;
+    email: string;
+    phone: string;
+    linkedin: string;
+    github: string;
+    avatar: string;
+  };
+  summary: string;
+  experience: { company: string; location: string; positions: ResumePosition[] }[];
+  skills: string[];
+  education: {
+    degree: string;
+    institution: string;
+    start_date: string;
+    end_date: string;
+    gpa: string;
+  }[];
+  hobbies: string[];
+  achievements: string[];
+  projects: { name: string; description: string }[];
+};
 type ResumeVariant = "modern" | "classic";
 export type ExperienceView = "company" | "role";
 export type ResumeTemplateProps = {
@@ -90,10 +123,10 @@ export function ResumeDocument({
                 <SectionHeading id="experience-heading">Experience</SectionHeading>
                 {experienceView === "company" ? (
                   <div className="space-y-7">
-                    {data.experience.map((company) => (
+                    {data.experience.map((company, companyIndex) => (
                       <article
                         className="company-item relative border-l border-[#cddbd8] pl-5"
-                        key={company.company}
+                        key={companyIndex}
                       >
                         <span
                           className="absolute -left-[5px] top-1.5 size-[9px] rounded-full border-[2px] border-white bg-[#318b7f]"
@@ -114,12 +147,12 @@ export function ResumeDocument({
                           </p>
                         </div>
                         <div className="company-positions mt-0 space-y-2">
-                          {company.positions.map((position) => (
+                          {company.positions.map((position, positionIndex) => (
                             <PositionDetails
                               company={company.company}
                               position={position}
                               showCompany={false}
-                              key={`${position.job_title}-${position.start_date}`}
+                              key={positionIndex}
                             />
                           ))}
                         </div>
@@ -128,11 +161,11 @@ export function ResumeDocument({
                   </div>
                 ) : (
                   <div className="space-y-5">
-                    {data.experience.flatMap((company) =>
-                      company.positions.map((position) => (
+                    {data.experience.flatMap((company, companyIndex) =>
+                      company.positions.map((position, positionIndex) => (
                         <article
                           className="role-item relative border-l border-[#cddbd8] pl-5"
-                          key={`${company.company}-${position.job_title}-${position.start_date}`}
+                          key={`${companyIndex}-${positionIndex}`}
                         >
                           <span
                             className="absolute -left-[5px] top-1.5 size-[9px] rounded-full border-[2px] border-white bg-[#318b7f]"
@@ -156,10 +189,10 @@ export function ResumeDocument({
               <section className="resume-section" aria-labelledby="skills-heading">
                 <SectionHeading id="skills-heading">Core skills</SectionHeading>
                 <ul className="flex flex-wrap gap-2">
-                  {data.skills.map((skill) => (
+                  {data.skills.map((skill, index) => (
                     <li
                       className="skill-badge rounded-sm border border-[#d8e5e1] bg-[#f3f8f6] text-xs font-medium text-[#315c58]"
-                      key={skill}
+                      key={index}
                     >
                       {skill}
                     </li>
@@ -170,8 +203,8 @@ export function ResumeDocument({
               <section className="resume-section" aria-labelledby="education-heading">
                 <SectionHeading id="education-heading">Education</SectionHeading>
                 <div className="space-y-5">
-                  {data.education.map((item) => (
-                    <article key={`${item.institution}-${item.degree}`}>
+                  {data.education.map((item, index) => (
+                    <article key={index}>
                       <h3 className="font-semibold leading-6 text-[#172f38]">
                         {item.degree}
                       </h3>
@@ -187,8 +220,8 @@ export function ResumeDocument({
               <section className="resume-section" aria-labelledby="achievements-heading">
                 <SectionHeading id="achievements-heading">Achievements</SectionHeading>
                 <ul className="space-y-2 text-sm leading-6 text-[#42545a]">
-                  {data.achievements.map((achievement) => (
-                    <li className="resume-bullet" key={achievement}>
+                  {data.achievements.map((achievement, index) => (
+                    <li className="resume-bullet" key={index}>
                       {achievement}
                     </li>
                   ))}
@@ -208,8 +241,8 @@ export function ResumeDocument({
           <section className="resume-section projects-section mt-8" aria-labelledby="projects-heading">
             <SectionHeading id="projects-heading">Selected projects</SectionHeading>
             <div className="grid gap-x-7 gap-y-5 sm:grid-cols-2">
-              {data.projects.map((project) => (
-                <article className="project-item" key={project.name}>
+              {data.projects.map((project, index) => (
+                <article className="project-item" key={index}>
                   <h3 className="font-semibold leading-6 text-[#172f38]">
                     {project.name}
                   </h3>
@@ -253,8 +286,8 @@ function PositionDetails({
         {position.duration ? `  /  ${position.duration}` : ""}
       </p>
       <ul className="mt-3 space-y-1.5 text-sm leading-6 text-[#42545a]">
-        {position.responsibilities.map((responsibility) => (
-          <li className="resume-bullet" key={responsibility}>
+        {position.responsibilities.map((responsibility, index) => (
+          <li className="resume-bullet" key={index}>
             {responsibility}
           </li>
         ))}

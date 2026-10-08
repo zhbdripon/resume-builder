@@ -1,6 +1,19 @@
 # Resume Builder
 
-A browser-based resume editor with a live A4 preview, two resume designs, JSON import/export, and print-to-PDF support.
+A browser-based resume editor with a live A4 preview, two printable designs, and tools to manage your resume data.
+
+[Open the live app](https://resume-builder-orcin-two.vercel.app)
+
+![Resume Builder editor with a live A4 resume preview](public/preview.png)
+
+## Features
+
+- **Edit and preview together:** Update personal details, profile, experience, skills, education, achievements, interests, and projects alongside a live A4 preview.
+- **Two resume designs:** Switch between Modern and Classic, and group experience by company or by role.
+- **Automatic local saving:** Resume changes are saved in this browser and restored on your next visit. Data is not synced between browsers or devices.
+- **Profile photo support:** Choose a photo stored separately in browser IndexedDB. Photos are not included in resume JSON files.
+- **JSON import and export:** Load an existing resume, restore the sample, or export your current data.
+- **Print-ready output:** Print the resume or save it as a PDF.
 
 ## Getting Started
 
@@ -13,19 +26,9 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Using the Editor
+The first visit loads the fictional example resume in `app/sampleData.json`. Use **Load JSON** to import a resume, **Export** to download the current data, **Load sample** to restore the example, or **Clear** to empty the editor. If no custom photo is selected, the preview uses `public/sample-profile.jpg`.
 
-- Edit personal details, profile, experience, skills, education, achievements, interests, and projects. Add or remove as many list entries as needed.
-- Choose the Modern or Classic design and display experience grouped by company or by role.
-- Resume changes, including data loaded from JSON, are saved automatically in this browser and restored on the next visit. Data is stored locally and is not synced between browsers or devices.
-- When no saved resume is available, the editor starts with the fictional software engineer profile in `app/sampleData.json`.
-- Choose a profile photo from your device; it is stored separately in IndexedDB. If there is no saved photo, the app shows `public/sample-profile.jpg`. Photos are not included in imported or exported JSON.
-- Use **Load JSON** to import another resume file, or select `app/sampleData.json` to restore the example.
-- Use **Load sample** to restore the example resume and photo, or **Clear** to empty the resume and remove a custom photo.
-- Use **Export** to download the current resume as JSON.
-- Use **Print / save as PDF** above the preview to print the resume or save it as a PDF.
-
-Imported files must use the resume data structure below. The field names match `app/data.json`.
+Imported files must use the resume data structure below. The field names match the example in `app/sampleData.json`.
 
 | Field | Shape |
 | --- | --- |

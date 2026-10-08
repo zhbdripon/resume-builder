@@ -1,6 +1,6 @@
 # Resume Builder
 
-A browser-based resume editor with a live A4 preview, two printable designs, and tools to manage your resume data.
+A free browser-based resume builder with a live A4 preview, two printable designs, and tools to manage your resume data.
 
 [Open the live app](https://resume-builder-orcin-two.vercel.app)
 
@@ -23,8 +23,6 @@ Requires Node.js and npm.
 npm install
 npm run dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000).
 
 The first visit loads the fictional example resume in `app/sampleData.json`. Use **Load JSON** to import a resume, **Export** to download the current data, **Load sample** to restore the example, or **Clear** to empty the editor. If no custom photo is selected, the preview uses `public/sample-profile.jpg`.
 

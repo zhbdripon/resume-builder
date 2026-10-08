@@ -364,6 +364,47 @@ body {
   background-size: cover;
 }
 
+.resume-photo-field {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.resume-photo-picker,
+.resume-photo-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.resume-photo-thumbnail,
+.resume-photo-placeholder {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  flex: none;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--muted);
+  color: var(--muted-foreground);
+}
+
+.resume-photo-thumbnail {
+  background-position: center;
+  background-size: cover;
+}
+
+.resume-photo-placeholder svg {
+  width: 22px;
+  height: 22px;
+}
+
+.resume-photo-actions {
+  flex-wrap: wrap;
+}
+
 .resume-header .mt-6 {
   margin-top: 3mm !important;
 }

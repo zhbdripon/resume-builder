@@ -7,12 +7,15 @@ import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/componen
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Download, Plus, Trash2, Upload } from "lucide-react";
+import { Download, ImagePlus, Plus, Trash2, Upload, UserRound } from "lucide-react";
 import type { ResumeData, ResumePosition } from "./resume-document";
 
 type ResumeFormProps = {
   data: ResumeData;
+  avatarUrl: string | null;
+  avatarError: string;
   onChange: (data: ResumeData) => void;
+  onPhotoChange: (file: File | null) => void;
 };
 
 const emptyPosition = (): ResumePosition => ({
@@ -48,7 +51,6 @@ export function isResumeData(value: unknown): value is ResumeData {
       "phone",
       "linkedin",
       "github",
-      "avatar",
     ]) ||
     typeof value.summary !== "string" ||
     !Array.isArray(value.experience) ||
@@ -88,8 +90,15 @@ export function isResumeData(value: unknown): value is ResumeData {
   return validExperience && validEducation && validProjects;
 }
 
-export function ResumeForm({ data, onChange }: ResumeFormProps) {
+export function ResumeForm({
+  data,
+  avatarUrl,
+  avatarError,
+  onChange,
+  onPhotoChange,
+}: ResumeFormProps) {
   const fileInput = useRef<HTMLInputElement>(null);
+  const photoInput = useRef<HTMLInputElement>(null);
   const [importError, setImportError] = useState("");
 
   function updatePersonal(field: keyof ResumeData["personal"], value: string) {
@@ -190,7 +199,7 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
                 <span>Personal details</span>
                 <span className="resume-accordion-hint">Contact information</span>
               </span>
-              <span className="resume-form-count">8 fields</span>
+              <span className="resume-form-count">7 fields + photo</span>
             </AccordionTrigger>
             <AccordionContent>
               <div className="resume-section-content resume-form-grid">
@@ -201,7 +210,52 @@ export function ResumeForm({ data, onChange }: ResumeFormProps) {
                 <Field label="Phone" type="tel" value={data.personal.phone} onChange={(value) => updatePersonal("phone", value)} />
                 <Field label="LinkedIn URL" type="url" value={data.personal.linkedin} onChange={(value) => updatePersonal("linkedin", value)} />
                 <Field label="GitHub URL" type="url" value={data.personal.github} onChange={(value) => updatePersonal("github", value)} />
-                <Field label="Avatar filename or path" value={data.personal.avatar} onChange={(value) => updatePersonal("avatar", value)} />
+                <div className="resume-photo-field">
+                  <Label>Profile photo</Label>
+                  <div className="resume-photo-picker">
+                    {avatarUrl ? (
+                      <div
+                        aria-label="Selected profile photo"
+                        className="resume-photo-thumbnail"
+                        role="img"
+                        style={{ backgroundImage: `url("${avatarUrl}")` }}
+                      />
+                    ) : (
+                      <div className="resume-photo-placeholder" aria-hidden="true">
+                        <UserRound />
+                      </div>
+                    )}
+                    <div className="resume-photo-actions">
+                      <Input
+                        accept="image/*"
+                        aria-label="Choose a profile photo"
+                        className="sr-only"
+                        onChange={(event) => {
+                          onPhotoChange(event.currentTarget.files?.[0] ?? null);
+                          event.currentTarget.value = "";
+                        }}
+                        ref={photoInput}
+                        type="file"
+                      />
+                      <Button onClick={() => photoInput.current?.click()} size="sm" type="button" variant="outline">
+                        <ImagePlus aria-hidden="true" />
+                        Choose photo
+                      </Button>
+                      {avatarUrl && (
+                        <Button
+                          aria-label="Remove profile photo"
+                          onClick={() => onPhotoChange(null)}
+                          size="icon-sm"
+                          type="button"
+                          variant="ghost"
+                        >
+                          <Trash2 aria-hidden="true" />
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                  {avatarError && <p className="resume-import-error" role="alert">{avatarError}</p>}
+                </div>
               </div>
             </AccordionContent>
           </AccordionItem>

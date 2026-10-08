@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { Button } from "@/components/ui/button";
 import { ClassicResumeTemplate } from "./classic-resume";
 import type { ExperienceView, ResumeData } from "./resume-document";
 import { ModernResumeTemplate } from "./modern-resume";
 import { isResumeData, ResumeForm } from "./resume-form";
+import { deleteAvatar, getAvatar, saveAvatar } from "./avatar-store";
 
 type TemplateName = "modern" | "classic";
 const RESUME_STORAGE_KEY = "resume-builder:resume:v1";
@@ -19,7 +20,6 @@ const emptyResume: ResumeData = {
     phone: "",
     linkedin: "",
     github: "",
-    avatar: "",
   },
   summary: "",
   experience: [],
@@ -91,9 +91,59 @@ export function TemplatePicker() {
   const data = parseResumeSnapshot(resumeSnapshot);
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateName>("modern");
   const [experienceView, setExperienceView] = useState<ExperienceView>("company");
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [avatarError, setAvatarError] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+
+    void getAvatar()
+      .then((photo) => {
+        if (!photo || cancelled) return;
+        setAvatarUrl(URL.createObjectURL(photo));
+      })
+      .catch(() => {
+        if (!cancelled) setAvatarError("The saved photo could not be loaded.");
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!avatarUrl) return;
+    return () => URL.revokeObjectURL(avatarUrl);
+  }, [avatarUrl]);
 
   function updateResume(nextData: ResumeData) {
     saveResumeSnapshot(nextData);
+  }
+
+  async function updateAvatar(file: File | null) {
+    setAvatarError("");
+
+    if (!file) {
+      try {
+        await deleteAvatar();
+        setAvatarUrl(null);
+      } catch {
+        setAvatarError("The saved photo could not be removed.");
+      }
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      setAvatarError("Choose an image file for the profile photo.");
+      return;
+    }
+
+    setAvatarUrl(URL.createObjectURL(file));
+    try {
+      await saveAvatar(file);
+    } catch {
+      setAvatarError("The photo could not be saved in this browser.");
+    }
   }
 
   const ResumeTemplate =
@@ -151,10 +201,16 @@ export function TemplatePicker() {
               </div>
             </div>
           </div>
-          <ResumeTemplate data={data} experienceView={experienceView} />
+          <ResumeTemplate data={data} avatarUrl={avatarUrl} experienceView={experienceView} />
         </section>
         <aside className="resume-editor screen-only" aria-label="Resume editor">
-          <ResumeForm data={data} onChange={updateResume} />
+          <ResumeForm
+            avatarError={avatarError}
+            avatarUrl={avatarUrl}
+            data={data}
+            onChange={updateResume}
+            onPhotoChange={(file) => void updateAvatar(file)}
+          />
         </aside>
       </div>
     </main>

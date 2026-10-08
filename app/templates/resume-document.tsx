@@ -19,7 +19,6 @@ export type ResumeData = {
     phone: string;
     linkedin: string;
     github: string;
-    avatar: string;
   };
   summary: string;
   experience: { company: string; location: string; positions: ResumePosition[] }[];
@@ -39,15 +38,18 @@ type ResumeVariant = "modern" | "classic";
 export type ExperienceView = "company" | "role";
 export type ResumeTemplateProps = {
   data: ResumeData;
+  avatarUrl: string | null;
   experienceView: ExperienceView;
 };
 
 export function ResumeDocument({
   data,
+  avatarUrl,
   variant,
   experienceView,
 }: {
   data: ResumeData;
+  avatarUrl: string | null;
   variant: ResumeVariant;
   experienceView: ExperienceView;
 }) {
@@ -98,12 +100,12 @@ export function ResumeDocument({
                 </a>
               </div>
             </div>
-            {data.personal.avatar && (
+            {avatarUrl && (
               <div
                 className="resume-avatar"
                 role="img"
                 aria-label={`${data.personal.name} portrait`}
-                style={{ backgroundImage: `url(/${data.personal.avatar})` }}
+                style={{ backgroundImage: `url("${avatarUrl}")` }}
               />
             )}
           </div>

@@ -1,0 +1,139 @@
+{
+  "personal": {
+    "name": "Maya Okafor",
+    "title": "Senior Software Engineer",
+    "location": "Portland, OR",
+    "email": "maya.okafor@example.com",
+    "phone": "+1 (503) 555-0147",
+    "linkedin": "https://example.com/maya-okafor",
+    "github": "https://example.com/maya-okafor-code"
+  },
+  "summary": "Senior software engineer who builds dependable web products and thoughtful developer tools. Experienced across TypeScript, React, and cloud services, with a focus on accessible interfaces, clear technical design, and helping teams deliver maintainable software.",
+  "experience": [
+    {
+      "company": "Alder Creek Software",
+      "location": "Portland, OR",
+      "positions": [
+        {
+          "job_title": "Senior Software Engineer",
+          "start_date": "04/2023",
+          "end_date": "Present",
+          "duration": null,
+          "work_type": "Hybrid",
+          "employment_type": "Full-time",
+          "responsibilities": [
+            "Led a migration of the customer workspace to React and TypeScript, reducing duplicated UI code across product teams.",
+            "Designed event-driven services for billing and account workflows, improving reliability during peak traffic.",
+            "Partnered with design and product to ship accessible onboarding used by more than 40,000 monthly customers.",
+            "Mentored four engineers through project planning, code review, and production incident follow-up."
+          ]
+        }
+      ]
+    },
+    {
+      "company": "Juniper Harbor Labs",
+      "location": "Remote",
+      "positions": [
+        {
+          "job_title": "Software Engineer",
+          "start_date": "06/2021",
+          "end_date": "03/2023",
+          "duration": "1 year 10 months",
+          "work_type": "Remote",
+          "employment_type": "Full-time",
+          "responsibilities": [
+            "Built REST and GraphQL endpoints for a logistics planning platform used by regional delivery teams.",
+            "Introduced background job monitoring and retry policies, reducing failed shipment updates by 35%.",
+            "Created a reusable component library and documentation that accelerated frontend delivery across three teams."
+          ]
+        },
+        {
+          "job_title": "Associate Software Engineer",
+          "start_date": "06/2020",
+          "end_date": "05/2021",
+          "duration": "1 year",
+          "work_type": "Remote",
+          "employment_type": "Full-time",
+          "responsibilities": [
+            "Implemented customer-facing dashboard features with React, Node.js, and PostgreSQL.",
+            "Added integration tests around shipment status updates and documented service contracts.",
+            "Worked with support to diagnose customer issues and turn recurring reports into product fixes."
+          ]
+        }
+      ]
+    },
+    {
+      "company": "Cedarline Web Studio",
+      "location": "Eugene, OR",
+      "positions": [
+        {
+          "job_title": "Web Developer",
+          "start_date": "07/2018",
+          "end_date": "05/2020",
+          "duration": "1 year 11 months",
+          "work_type": "Onsite",
+          "employment_type": "Full-time",
+          "responsibilities": [
+            "Built responsive websites and small business dashboards using JavaScript, CSS, and Node.js.",
+            "Improved page performance by optimizing image delivery and removing unused client-side code.",
+            "Worked directly with clients to turn design feedback into accessible, maintainable interfaces."
+          ]
+        }
+      ]
+    }
+  ],
+  "skills": [
+    "TypeScript",
+    "React",
+    "Next.js",
+    "Node.js",
+    "Python",
+    "PostgreSQL",
+    "GraphQL",
+    "REST APIs",
+    "Accessibility",
+    "System design",
+    "AWS",
+    "Docker",
+    "Playwright",
+    "CI/CD",
+    "Technical mentoring"
+  ],
+  "education": [
+    {
+      "degree": "B.S. Computer Science",
+      "institution": "Oregon State University",
+      "start_date": "09/2014",
+      "end_date": "06/2018",
+      "gpa": "3.8/4.0"
+    }
+  ],
+  "hobbies": [
+    "Trail running",
+    "Ceramics",
+    "Community tech workshops"
+  ],
+  "achievements": [
+    "Recognized with the 2025 Alder Creek Engineering Impact Award.",
+    "Spoke about accessible design systems at the fictional Cascadia Product Forum.",
+    "Organized a volunteer workshop series introducing web development to career changers."
+  ],
+  "projects": [
+    {
+      "name": "Dispatch Desk",
+      "description": "A delivery operations workspace for planning routes, monitoring shipment events, and resolving exceptions across a distributed fleet."
+    },
+    {
+      "name": "Patchwork UI",
+      "description": "An accessible component library with usage examples, interaction tests, and design tokens for product teams."
+    },
+    {
+      "name": "Open Door",
+      "description": "A volunteer-built directory that helps neighborhood organizations coordinate events and community resources."
+    },
+    {
+      "name": "Signal Garden",
+      "description": "A lightweight service health dashboard that groups alerts by customer impact and links them to operational runbooks."
+    }
+  ]
+}

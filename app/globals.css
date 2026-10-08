@@ -61,6 +61,41 @@ body {
   font-family: var(--font-geist-sans), sans-serif;
 }
 
+.resume-loading-state {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+}
+
+.resume-loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted-foreground);
+  font-size: 14px;
+  font-weight: 550;
+}
+
+.resume-loading-indicator svg {
+  width: 20px;
+  height: 20px;
+  color: var(--ring);
+  animation: resume-loading-spin 900ms linear infinite;
+}
+
+@keyframes resume-loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resume-loading-indicator svg {
+    animation: none;
+  }
+}
+
 .resume-stage {
   background-image: radial-gradient(#becdc7 0.65px, transparent 0.65px);
   background-size: 16px 16px;
@@ -91,9 +126,40 @@ body {
 }
 
 .resume-form-header {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
   border-bottom: 1px solid var(--border);
   padding-top: 18px;
   padding-bottom: 16px;
+}
+
+.resume-form-header [data-slot="card-action"] {
+  grid-column: 1;
+  grid-row: auto;
+  justify-self: start;
+}
+
+.resume-form-heading {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.resume-form-heading-icon {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  place-items: center;
+  border: 1px solid #c5dcd5;
+  border-radius: 9px;
+  background: #edf6f2;
+  color: #28685f;
+}
+
+.resume-form-heading-icon svg {
+  width: 19px;
+  height: 19px;
 }
 
 .resume-form-title {
@@ -110,6 +176,9 @@ body {
 
 .resume-file-actions {
   display: flex;
+  max-width: 100%;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 6px;
 }
 

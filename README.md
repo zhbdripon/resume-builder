@@ -18,8 +18,10 @@ Open [http://localhost:3000](http://localhost:3000).
 - Edit personal details, profile, experience, skills, education, achievements, interests, and projects. Add or remove as many list entries as needed.
 - Choose the Modern or Classic design and display experience grouped by company or by role.
 - Resume changes, including data loaded from JSON, are saved automatically in this browser and restored on the next visit. Data is stored locally and is not synced between browsers or devices.
-- Choose a profile photo from your device; the image is stored separately in IndexedDB and restored with the resume. Photos are not included in imported or exported JSON.
-- Use **Load JSON** to import a resume file. To start with the included example, select `app/data.json`.
+- When no saved resume is available, the editor starts with the fictional software engineer profile in `app/sampleData.json`.
+- Choose a profile photo from your device; it is stored separately in IndexedDB. If there is no saved photo, the app shows `public/sample-profile.jpg`. Photos are not included in imported or exported JSON.
+- Use **Load JSON** to import another resume file, or select `app/sampleData.json` to restore the example.
+- Use **Load sample** to restore the example resume and photo, or **Clear** to empty the resume and remove a custom photo.
 - Use **Export** to download the current resume as JSON.
 - Use **Print / save as PDF** above the preview to print the resume or save it as a PDF.
 
@@ -52,4 +54,5 @@ npm start        # Serve the production build (run build first)
 - `app/templates/resume-document.tsx` — shared resume data model and document layout
 - `app/templates/modern-resume.tsx` and `app/templates/classic-resume.tsx` — printable designs
 - `components/ui/` — shadcn UI components
-- `app/data.json` — example resume data that can be imported from the editor
+- `app/sampleData.json` — fictional example resume data used for the first visit and available for import
+- `public/sample-profile.jpg` — static profile photo shown when IndexedDB has no selected photo

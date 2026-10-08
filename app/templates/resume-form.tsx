@@ -2,19 +2,32 @@
 
 import { useId, useRef, useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Download, ImagePlus, Plus, Trash2, Upload, UserRound } from "lucide-react";
+import { Download, Eraser, FileText, ImagePlus, Plus, Trash2, Upload, UserRound } from "lucide-react";
 import type { ResumeData, ResumePosition } from "./resume-document";
 
 type ResumeFormProps = {
   data: ResumeData;
   avatarUrl: string | null;
   avatarError: string;
+  hasCustomAvatar: boolean;
   onChange: (data: ResumeData) => void;
+  onLoadSample: () => void;
+  onClear: () => void;
   onPhotoChange: (file: File | null) => void;
 };
 
@@ -94,9 +107,13 @@ export function ResumeForm({
   data,
   avatarUrl,
   avatarError,
+  hasCustomAvatar,
   onChange,
+  onLoadSample,
+  onClear,
   onPhotoChange,
 }: ResumeFormProps) {
+  const [confirmation, setConfirmation] = useState<"load-sample" | "clear" | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
   const photoInput = useRef<HTMLInputElement>(null);
   const [importError, setImportError] = useState("");
@@ -164,8 +181,15 @@ export function ResumeForm({
     <Card className="resume-form-card">
       <CardHeader className="resume-form-header">
         <div>
-          <p className="resume-form-eyebrow">Editor</p>
-          <CardTitle className="resume-form-title">Resume details</CardTitle>
+          <div className="resume-form-heading">
+            <span className="resume-form-heading-icon" aria-hidden="true">
+              <FileText />
+            </span>
+            <span>
+              <p className="resume-form-eyebrow">Resume workspace</p>
+              <CardTitle className="resume-form-title">Build your resume</CardTitle>
+            </span>
+          </div>
         </div>
         <CardAction className="resume-file-actions">
           <input
@@ -182,6 +206,19 @@ export function ResumeForm({
           <Button onClick={() => fileInput.current?.click()} size="sm" variant="outline" type="button">
             <Upload aria-hidden="true" />
             Load JSON
+          </Button>
+          <Button onClick={() => setConfirmation("load-sample")} size="sm" variant="outline" type="button">
+            <FileText aria-hidden="true" />
+            Load sample
+          </Button>
+          <Button
+            onClick={() => setConfirmation("clear")}
+            size="sm"
+            type="button"
+            variant="destructive"
+          >
+            <Eraser aria-hidden="true" />
+            Clear
           </Button>
           <Button onClick={exportFile} size="sm" type="button">
             <Download aria-hidden="true" />
@@ -241,7 +278,7 @@ export function ResumeForm({
                         <ImagePlus aria-hidden="true" />
                         Choose photo
                       </Button>
-                      {avatarUrl && (
+                      {hasCustomAvatar && (
                         <Button
                           aria-label="Remove profile photo"
                           onClick={() => onPhotoChange(null)}
@@ -512,6 +549,38 @@ export function ResumeForm({
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+        <AlertDialog
+          open={confirmation !== null}
+          onOpenChange={(open) => {
+            if (!open) setConfirmation(null);
+          }}
+        >
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                {confirmation === "load-sample" ? "Load sample resume?" : "Clear this resume?"}
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                {confirmation === "load-sample"
+                  ? "This replaces the resume currently open and saved in this browser with the sample. Any changes you made will be lost, and the profile photo will return to the sample portrait."
+                  : "This clears the resume saved in this browser and removes your custom profile photo. Any changes you made will be lost."}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  if (confirmation === "load-sample") onLoadSample();
+                  if (confirmation === "clear") onClear();
+                  setConfirmation(null);
+                }}
+                variant={confirmation === "clear" ? "destructive" : "default"}
+              >
+                {confirmation === "load-sample" ? "Load sample" : "Clear resume"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </CardContent>
     </Card>
   );

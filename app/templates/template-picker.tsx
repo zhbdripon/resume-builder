@@ -1,16 +1,20 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Button } from "@/components/ui/button";
+import { LoaderCircle } from "lucide-react";
+import sampleData from "../sampleData.json";
 import { ClassicResumeTemplate } from "./classic-resume";
 import type { ExperienceView, ResumeData } from "./resume-document";
 import { ModernResumeTemplate } from "./modern-resume";
 import { isResumeData, ResumeForm } from "./resume-form";
-import { deleteAvatar, getAvatar, saveAvatar } from "./avatar-store";
+import { clearAvatar, deleteAvatar, getAvatar, saveAvatar } from "./avatar-store";
 
 type TemplateName = "modern" | "classic";
 const RESUME_STORAGE_KEY = "resume-builder:resume:v1";
-
+const LOADING_RESUME_SNAPSHOT = "__resume_loading__";
+const SAMPLE_AVATAR_URL = "/sample-profile.jpg";
+const sampleResume: ResumeData = sampleData;
 const emptyResume: ResumeData = {
   personal: {
     name: "",
@@ -72,13 +76,13 @@ function saveResumeSnapshot(data: ResumeData) {
 }
 
 function parseResumeSnapshot(snapshot: string): ResumeData {
-  if (!snapshot) return emptyResume;
+  if (!snapshot) return sampleResume;
 
   try {
     const parsed: unknown = JSON.parse(snapshot);
-    return isResumeData(parsed) ? parsed : emptyResume;
+    return isResumeData(parsed) ? parsed : sampleResume;
   } catch {
-    return emptyResume;
+    return sampleResume;
   }
 }
 
@@ -86,24 +90,46 @@ export function TemplatePicker() {
   const resumeSnapshot = useSyncExternalStore(
     subscribeToResumeStore,
     getResumeSnapshot,
-    () => "",
+    () => LOADING_RESUME_SNAPSHOT,
   );
-  const data = parseResumeSnapshot(resumeSnapshot);
+  const isResumeReady = resumeSnapshot !== LOADING_RESUME_SNAPSHOT;
+  const data = isResumeReady ? parseResumeSnapshot(resumeSnapshot) : sampleResume;
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateName>("modern");
   const [experienceView, setExperienceView] = useState<ExperienceView>("company");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [isAvatarReady, setIsAvatarReady] = useState(false);
+  const [hasCustomAvatar, setHasCustomAvatar] = useState(false);
   const [avatarError, setAvatarError] = useState("");
+  const avatarRequestVersion = useRef(0);
 
   useEffect(() => {
     let cancelled = false;
+    const requestVersion = avatarRequestVersion.current;
 
     void getAvatar()
       .then((photo) => {
-        if (!photo || cancelled) return;
-        setAvatarUrl(URL.createObjectURL(photo));
+        if (cancelled || requestVersion !== avatarRequestVersion.current) return;
+        if (photo === "cleared") {
+          setHasCustomAvatar(false);
+          setAvatarUrl(null);
+          setIsAvatarReady(true);
+          return;
+        }
+        if (photo) {
+          setHasCustomAvatar(true);
+          setAvatarUrl(URL.createObjectURL(photo));
+        } else {
+          setHasCustomAvatar(false);
+          setAvatarUrl(SAMPLE_AVATAR_URL);
+        }
+        setIsAvatarReady(true);
       })
       .catch(() => {
-        if (!cancelled) setAvatarError("The saved photo could not be loaded.");
+        if (cancelled || requestVersion !== avatarRequestVersion.current) return;
+        setHasCustomAvatar(false);
+        setAvatarUrl(SAMPLE_AVATAR_URL);
+        setAvatarError("The saved photo could not be loaded.");
+        setIsAvatarReady(true);
       });
 
     return () => {
@@ -112,7 +138,7 @@ export function TemplatePicker() {
   }, []);
 
   useEffect(() => {
-    if (!avatarUrl) return;
+    if (!avatarUrl || avatarUrl === SAMPLE_AVATAR_URL) return;
     return () => URL.revokeObjectURL(avatarUrl);
   }, [avatarUrl]);
 
@@ -122,11 +148,13 @@ export function TemplatePicker() {
 
   async function updateAvatar(file: File | null) {
     setAvatarError("");
+    avatarRequestVersion.current += 1;
 
     if (!file) {
       try {
         await deleteAvatar();
-        setAvatarUrl(null);
+        setHasCustomAvatar(false);
+        setAvatarUrl(SAMPLE_AVATAR_URL);
       } catch {
         setAvatarError("The saved photo could not be removed.");
       }
@@ -139,11 +167,39 @@ export function TemplatePicker() {
     }
 
     setAvatarUrl(URL.createObjectURL(file));
+    setHasCustomAvatar(true);
     try {
       await saveAvatar(file);
     } catch {
       setAvatarError("The photo could not be saved in this browser.");
     }
+  }
+
+  function loadSample() {
+    updateResume(sampleResume);
+    void updateAvatar(null);
+  }
+
+  function clearResume() {
+    avatarRequestVersion.current += 1;
+    updateResume(emptyResume);
+    setAvatarUrl(null);
+    setHasCustomAvatar(false);
+    setAvatarError("");
+    void clearAvatar().catch(() => {
+      setAvatarError("The profile photo could not be cleared from this browser.");
+    });
+  }
+
+  if (!isResumeReady || !isAvatarReady) {
+    return (
+      <main className="resume-loading-state">
+        <div className="resume-loading-indicator" role="status" aria-live="polite">
+          <LoaderCircle aria-hidden="true" />
+          <span>Loading your resume...</span>
+        </div>
+      </main>
+    );
   }
 
   const ResumeTemplate =
@@ -206,9 +262,12 @@ export function TemplatePicker() {
         <aside className="resume-editor screen-only" aria-label="Resume editor">
           <ResumeForm
             avatarError={avatarError}
+            hasCustomAvatar={hasCustomAvatar}
             avatarUrl={avatarUrl}
             data={data}
             onChange={updateResume}
+            onClear={clearResume}
+            onLoadSample={loadSample}
             onPhotoChange={(file) => void updateAvatar(file)}
           />
         </aside>

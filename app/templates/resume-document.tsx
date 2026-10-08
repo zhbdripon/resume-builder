@@ -57,7 +57,7 @@ export function ResumeDocument({
     <>
       <div className="resume-toolbar mx-auto mb-4 flex w-full max-w-[210mm] items-center justify-between gap-4">
         <p className="text-sm font-medium text-[#496168]">A4 resume</p>
-        <PrintButton />
+        <PrintButton fullName={data.personal.name} />
       </div>
 
       <article

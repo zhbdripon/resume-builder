@@ -13,9 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ziaul Hoque Ripon | Full-Stack Software Engineer",
-  description:
-    "Resume of Ziaul Hoque Ripon, a full-stack software engineer based in Dhaka.",
+  title: "Resume Builder",
+  description: "Create, edit, and print a polished resume with Resume Builder.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

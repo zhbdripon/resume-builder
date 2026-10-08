@@ -195,7 +195,9 @@ export function TemplatePicker() {
     return (
       <main className="resume-loading-state">
         <div className="resume-loading-indicator" role="status" aria-live="polite">
-          <LoaderCircle aria-hidden="true" />
+          <span className="resume-loading-icon">
+            <LoaderCircle aria-hidden="true" />
+          </span>
           <span>Loading your resume...</span>
         </div>
       </main>

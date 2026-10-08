@@ -63,25 +63,53 @@ body {
 
 .resume-loading-state {
   display: grid;
+  width: 100%;
+  flex: 1;
   min-height: 100vh;
+  min-height: 100svh;
   place-items: center;
   padding: 24px;
+  background: radial-gradient(circle at 50% 46%, #ffffff 0, #f5f8f5 36%, var(--background) 78%);
 }
 
 .resume-loading-indicator {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: grid;
+  justify-items: center;
+  gap: 16px;
   color: var(--muted-foreground);
-  font-size: 14px;
-  font-weight: 550;
+  font-size: 13px;
+  font-weight: 600;
 }
 
-.resume-loading-indicator svg {
-  width: 20px;
-  height: 20px;
+.resume-loading-icon {
+  position: relative;
+  display: grid;
+  width: 76px;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid #c5dcd5;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 8px 26px rgba(19, 44, 53, 0.08);
+}
+
+.resume-loading-icon::after {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  width: 8px;
+  aspect-ratio: 1;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: var(--accent);
+  content: "";
+}
+
+.resume-loading-icon svg {
+  width: 34px;
+  height: 34px;
   color: var(--ring);
-  animation: resume-loading-spin 900ms linear infinite;
+  animation: resume-loading-spin 1s linear infinite;
 }
 
 @keyframes resume-loading-spin {
@@ -91,7 +119,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .resume-loading-indicator svg {
+  .resume-loading-icon svg {
     animation: none;
   }
 }
